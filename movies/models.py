@@ -15,7 +15,7 @@ from datetime import date
 
 class Category (models.Model):
     #Категории
-    name = models.CharField("Категория", max_length=150)
+    name = models.CharField("Категория",  max_length=150)
     description = models.TextField("Описание", unique=True)
     url = models.SlugField(max_length=160)
 
@@ -32,6 +32,7 @@ class Actor(models.Model):
     #Актеры и режиссеры
     name = models.CharField("Имя", max_length=150)
     age = models.PositiveSmallIntegerField("Возраст", default=True)
+    description = models.TextField("Описание")
     image = models.ImageField("Изображение", upload_to="actors/")
 
     def __str__(self):
@@ -72,10 +73,8 @@ class Movie (models.Model):
     world_primer = models.DateField("Мировая премьера", default=date.today)
     budget = models.PositiveIntegerField(
         "Бюджет", default=0, help_text="указывать сумму в долларах")
-    fees_in_usa = models.PositiveIntegerField(
-        "Сборы в США", default=0, help_text="указывать сумму в долларах")
-    fees_in_usa = models.PositiveIntegerField(
-        "Сборы в Мире", default=0, help_text="указывать сумму в долларах")
+    fees_in_usa = models.PositiveIntegerField("Сборы в США", default=0, help_text="указывать сумму в долларах")
+    fees_in_world = models.PositiveIntegerField("Сборы в Мире", default=0, help_text="указывать сумму в долларах")
     category = models.ForeignKey(
         Category, verbose_name="Категория", on_delete=models.SET_NULL,
         null=True)
@@ -123,7 +122,7 @@ class Rating (models.Model):
     star = models.ForeignKey(
         RatingStar, on_delete=models.CASCADE, verbose_name="звезда")
     movie = models.ForeignKey(
-        Movie, on_delete=models.CharField, verbose_name="фильм")
+        Movie, on_delete=models.CASCADE, verbose_name="фильм")
 
     def __str__(self):
         return f"{self.star} - {self.movie}"
