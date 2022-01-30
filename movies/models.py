@@ -96,7 +96,7 @@ class MovieShots (models.Model):
     title = models.CharField("Название", max_length=100)
     description = models.TextField("Описание")
     image = models.ImageField("Изображение", upload_to="movie_shots/")
-    movie = models.ForeignKey(Movie, verbose_name="", on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, verbose_name="Фильм", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -145,7 +145,8 @@ class Review(models.Model):
         Movie, verbose_name='фильм', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.star} - {self.movie}"
+        return self.text
+        #f"{self.star} - {self.movie}"
 
     class Meta:
         verbose_name = "Отзыв"
